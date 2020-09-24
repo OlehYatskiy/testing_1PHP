@@ -4,16 +4,16 @@
  * Site: http://bezramok-tlt.ru
  * Регистрация пользователя письмом
  */
-
-if (isset($_POST['username']) &&
-    isset($_POST['password']) &&
-    isset($_POST['email'])) {
+function register($pdo) {
+    if (isset($_POST['username']) &&
+        isset($_POST['password']) &&
+        isset($_POST['email'])) {
 
         //Получаем ХЕШ соли
         $salt = salt();
 
         //Солим пароль
-        $pass = md5(md5($_POST['password']).$salt);
+        $pass = md5(md5($_POST['password']) . $salt);
 
         /*Если все хорошо, пишем данные в базу*/
         $query = 'INSERT INTO users(
@@ -29,7 +29,7 @@ if (isset($_POST['username']) &&
                         :userName,
                         :password,
                         :salt,
-                        "'. md5($salt) .'",
+                        "' . md5($salt) . '",
                         0
                         )';
         //Подготавливаем PDO выражение для SQL запроса
@@ -40,11 +40,11 @@ if (isset($_POST['username']) &&
         $stmt->bindValue(':salt', $salt, PDO::PARAM_STR);
         $stmt->execute();
 
-        echo json_encode(['success' => 1, 'message' => 'User'.$_POST['username'].'was registered']);
-} else {
-    echo json_encode(array('success' => 0, 'message' => 'Did not get any credentials'));
+        return json_encode(['success' => 1, 'message' => 'User ' . $_POST['username'] . ' was registered']);
+    } else {
+        return json_encode(array('success' => 0, 'message' => 'Did not get any credentials'));
+    }
 }
-
 
 
  //Выводим сообщение об удачной регистрации

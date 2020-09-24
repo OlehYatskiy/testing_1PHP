@@ -4,15 +4,16 @@ $(document).ready( function () {
             debugger;
             $.ajax({
                 type: "POST",
-                url: '/',
+                url: '/scripts/routes.php',
                 data: `${$(this).serialize()}&mode=reg`,
                 success: function(response) {
                     debugger;
+                    let jsonData = {};
                     try {
-                        const jsonData = JSON.parse(response);
+                        jsonData = JSON.parse(response);
                     } catch (error) {
                         console.log(error);
-                        const jsonData = {
+                        jsonData = {
                             success: 'parseErr',
                             message: 'parsing data Error from server'
                         }
