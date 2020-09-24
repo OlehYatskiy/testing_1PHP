@@ -34,16 +34,11 @@
 
 			case 'auth':
 				include './auth/auth.php';
-				include './auth/auth_form.html';
-				include './auth/show.php';
+				$data = auth($pdo);
+//				include './auth/show.php';
 				break;
 		}
 	}
-
-
-
-//	include './scripts/auth/auth.php';
-//	include './scripts/auth/show.php';
     
 	//Получаем данные с буфера
 	$content = ob_get_contents();
