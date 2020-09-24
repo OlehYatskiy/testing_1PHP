@@ -15,20 +15,22 @@ $(document).ready( function () {
                         console.log(error);
                         jsonData = {
                             success: 'parseErr',
-                            message: 'parsing data Error from server'
+                            message: ['parsing data Error from server']
                         }
                     }
 
                     // user is logged in successfully in the back-end
-                    if (jsonData.success == "1")
-                    {
+                    if (jsonData.success == 'ok') {
                         console.log(jsonData.message);
                         alert(jsonData.message);
-                    }
-                    else
-                    {
+                    } else if (jsonData.success == 'parseErr') {
                         console.log(jsonData.message);
                         alert('Invalid Credentials!');
+                    } else {
+                        jsonData.message.forEach(function(message) {
+                            console.log(jsonData.message);
+                            alert(jsonData.message);
+                        });
                     }
                 }
             });

@@ -1,13 +1,35 @@
 <?php
  /**
  * Обработчик формы регистрации
- * Site: http://bezramok-tlt.ru
- * Регистрация пользователя письмом
  */
 function register($pdo) {
-    if (isset($_POST['username']) &&
-        isset($_POST['password']) &&
-        isset($_POST['email'])) {
+    if (
+        isset($_POST['mode'])  ? $_POST['mode'] : false
+    ) {
+
+        /*Проверяем существует ли у нас
+			такой пользователь в БД*/
+        $query = 'SELECT userName, email
+                FROM users
+                WHERE userName = ? OR email = ?';
+        //Подготавливаем PDO выражение для SQL запроса
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$_POST['username'], $_POST['email']]);
+        $rows = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //message userName or email has exist
+        if($rows) {
+            $userExist = $_POST['username'] === $rows['userName'] ? 'name "' . $_POST['username'] . '"' : false;
+            $emailExist = $_POST['email'] === $rows['email'] ? 'email "' . $_POST['email'] . '"' : false;
+            $err[] = 'User with ' . (($userExist && $emailExist) ?
+                ($userExist . ' and ' . $emailExist) :
+                ($userExist ?: $emailExist))
+                    . ' already exist';
+        }
+
+        //Проверяем наличие ошибок и выводим пользователю
+        if(count($err) > 0)
+            return json_encode(['success' => 'regError', 'message' => $err]);
 
         //Получаем ХЕШ соли
         $salt = salt();
@@ -40,9 +62,9 @@ function register($pdo) {
         $stmt->bindValue(':salt', $salt, PDO::PARAM_STR);
         $stmt->execute();
 
-        return json_encode(['success' => 1, 'message' => 'User ' . $_POST['username'] . ' was registered']);
+        return json_encode(['success' => 'ok', 'message' => ['User ' . $_POST['username'] . ' was registered']]);
     } else {
-        return json_encode(array('success' => 0, 'message' => 'Did not get any credentials'));
+        return json_encode(array('success' => 'regError', 'message' => ['Did not get any credentials']));
     }
 }
 
