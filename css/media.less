@@ -1,0 +1,156 @@
+
+/*tablet*/
+@media screen and (max-width: 800px){
+  html {
+    font-size: 10px;
+  }
+
+  h1 {
+    font-size: 24.5px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 17px;
+  }
+
+  .container {
+
+    .form-outer-h2 {
+      margin-right: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .container-form {
+      max-width: 61.7rem;
+      height: auto;
+
+      .btn {
+        width: 11.6rem;
+        padding: 0.6rem 0.4rem;
+        font-size: 20px;
+      }
+
+      .login-form {
+        .login-form-input {
+          font-size: 20px;
+        }
+
+        .login-form-bottombox {
+          .login-form-label:hover::after {
+            top: 3.3rem;
+          }
+        }
+      }
+
+      .register-form {
+        .register-form-box {
+          .register-form-label::after {
+            top: 3.5rem;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+@media screen and (max-width: 490px) and (min-width: 428px){
+  .container {
+    .container-form {
+      .login-form {
+        .login-form-bottombox{
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+          height: 7rem;
+        }
+      }
+    }
+  }
+}
+
+/*mobile*/
+@media screen and (max-width: 428px) {
+  .container {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+
+    .form-outer-h2 {
+      display: none;
+    }
+
+    .form-outer {
+      width: 100%;
+    }
+
+    .container-form {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      border: none;
+
+      .form-header {
+        margin: 0;
+
+        .form-header-label {
+          font-size: 18px;
+        }
+      }
+
+      .login-form {
+        .login-form-topline {
+          width: 100%;
+        }
+
+        .login-form-topline::before {
+          margin-left: 0;
+        }
+
+        .login-form-bottombox {
+          .login-form-label:hover::after {
+            width: 146%;
+            height: auto;
+          }
+        }
+      }
+
+      .register-form:before {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        position: static;
+        height: 1px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+/*checkbox caption*/
+@media screen and (max-width: 1053px) {
+  .container {
+    .form-outer {
+      margin-left: 0;
+    }
+
+    .container-form {
+      .login-form {
+        .login-form-bottombox {
+          .login-form-label:hover::after {
+            left: 0;
+          }
+        }
+      }
+    }
+  }
+}

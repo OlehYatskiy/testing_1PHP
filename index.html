@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet/less" type="text/css" href="css/index.less" />
+    <link rel="stylesheet/less" type="text/css" href="css/media.less" />
+    <link rel="stylesheet" type="text/css" href="fonts/fonts.css" />
+    <script src="lessJs/less.min.js" ></script>
+    <title>Register Login</title>
+</head>
+<body>
+<div class="container">
+    <div class="form-outer">
+        <h2 class="form-outer-h2">Login To Your Account / Register New</h2>
+        <div class="container-form">
+            <div class="form-header">
+                <div class="form-header-icon"></div>
+                <h1 class="form-header-label">Login To Your Account / Register New</h1>
+            </div>
+            <form id="loginForm" class="login-form grid-column" autocomplete="off">
+                <div class="login-form-topline"></div>
+                <input class="login-form-input"
+                       id="loginUserName"
+                       name="loginName"
+                       type="text"
+                       placeholder="User name"
+                       required>
+                <input class="login-form-input"
+                       id="loginPassword"
+                       name="loginPassword"
+                       type="password"
+                       placeholder="Password"
+                       autocomplete="new-password"
+                       required>
+                <div class="login-form-bottombox">
+                    <input class="login-form-checkbox" id="loginCheckbox" type="checkbox" value="yes">
+                    <label class="login-form-label"
+                           for="loginCheckbox"
+                           data-title="You no longer need to enter &shy; a password every time you use the site">
+                        Remember My password
+                    </label>
+                    <button class="login-form-btn btn" id="loginButton" disabled>Login</button>
+                </div>
+            </form>
+            <form id="registerForm" class="register-form grid-column" autocomplete="off">
+                <h3 class="register-form-h3">Register</h3>
+                <div class="register-form-box">
+                    <label class="register-form-label" for="registerEmail">Email</label>
+                    <input class="register-form-input"
+                           id="registerEmail"
+                           name="email"
+                           type="email"
+                           required>
+                </div>
+                <div class="register-form-box">
+                    <label class="register-form-label" for="registerUserName">User Name</label>
+                    <input class="register-form-input"
+                           id="registerUserName"
+                           name="username"
+                           type="text"
+                           required>
+                </div>
+                <div class="register-form-box">
+                    <label class="register-form-label" for="registerPassword">Password</label>
+                    <input class="register-form-input"
+                           id="registerPassword"
+                           name="password"
+                           type="password"
+                           autocomplete="new-password"
+                           required>
+                </div>
+                <button class="register-form-btn btn disabled" id="registerButton" disabled>Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="index.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="api.js"></script>
+<!--<script type="text/javascript">-->
+<!--    loadScript("html/api.js", function(){-->
+<!--        //initialization code-->
+<!--        console.log("initialization code")-->
+<!--    });-->
+<!--</script>-->
+</body>
+</html>
