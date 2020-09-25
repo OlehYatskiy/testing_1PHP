@@ -3,35 +3,31 @@
 	main file 'switcher'
 	*/
 
-	//Включаем буферизацию содержимого
+	//set buffering
 	ob_start();
 
-	//Определяем переменную для переключателя
+	//define mode
 	$mode = isset($_REQUEST['mode'])  ? $_REQUEST['mode'] : false;
-	$user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
+//	$user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
 	$err = [];
 
-	//Устанавливаем ключ защиты
-	define('BEZ_KEY', true);
 
 	if($mode) {
-		//Подключаем конфигурационный файл
+
 		include './config.php';
-		//Подключаем скрипт с функциями
 		include './func/funct.php';
-		//подключаем MySQL
-		include './bd/bd.php';
+		include './bd/bd.php';//connect MySQL
 
 		//registration/auth scripts
 		switch($mode)
 		{
-			//Подключаем обработчик с формой регистрации
+			//handle registration
 			case 'reg':
 				include './reg/reg.php';
 				$data = register($pdo);
 				break;
-			//Подключаем обработчик с формой авторизации
 
+			//handle auth
 			case 'auth':
 				include './auth/auth.php';
 				$data = auth($pdo);
@@ -40,7 +36,7 @@
 		}
 	}
     
-	//Получаем данные с буфера
+	//Get data from buffer
 	$content = ob_get_contents();
 	ob_end_clean();
 

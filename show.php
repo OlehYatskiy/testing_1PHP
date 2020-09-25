@@ -10,7 +10,7 @@
     <script src="lessJs/less.min.js" ></script>
     <title>Welcome</title>
 </head>
-<!-- Если авторизован выведет приветствие -->
+<!--If logged in, it will display a greeting-->
 
 <body>
 <div class="container">
@@ -23,8 +23,7 @@
                 <div class="form-header-icon"></div>
                 <h1 class="form-header-label">Welcome <?php echo $_SESSION['user']->userName; ?></h1>
             </div>
-            <a href="logout.php">Выйти</a> <!-- файл logout.php создадим ниже -->
-            <!-- Пользователь может нажать выйти для выхода из системы -->
+            <a href="logout.php">Выйти</a>
         </div>
     </div>
     <?php else : ?>

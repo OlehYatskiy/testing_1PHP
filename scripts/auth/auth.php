@@ -1,16 +1,14 @@
 <?php
  /**
- * Обработчик формы авторизации
- * Site: http://bezramok-tlt.ru
- * Авторизация пользователя
+ * authorization handler
  */
  
- //Выход из авторизации
+ //escape from auth
  if(isset($_GET['exit']) == true){
- 	//Уничтожаем сессию
+
  	session_destroy();
 
- 	//Делаем редирект
+ 	//make redirect
  	header('Location:'. BEZ_HOST .'?mode=auth');
  	exit;
  }
@@ -18,46 +16,30 @@
 function auth($pdo) {
     if (isset($_POST['mode'])) {
 
-        //Проверяем на пустоту
-        if (empty($_POST['loginName']))
-            $err[] = ['Login not entered'];
+        /*Create a query to select from the database
+         data to verify the authenticity of the user*/
+        $query = 'SELECT * 
+            FROM users
+            WHERE userName = ?';
 
-        if (empty($_POST['loginPassword']))
-            $err[] = ['Password not entered'];
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$_POST['loginName']]);
 
-        //Проверяем наличие ошибок и выводим пользователю
-        if (count($err) > 0)
-            return json_encode([
-                    'success' => 'authErr',
-                    'message' => $err
-                ]);
+        //fetch SQL query
+        $rows = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        else {
-            /*Создаем запрос на выборку из базы
-            данных для проверки подлиности пользователя*/
-            $query = 'SELECT * 
-                FROM users
-                WHERE userName = ?';
-            //Подготавливаем PDO выражение для SQL запроса
-            $stmt = $pdo->prepare($query);
-            $stmt->execute([$_POST['loginName']]);
+        //check password, if login correct
+        if ($rows) {
+            //get data from table
+            if (md5(md5($_POST['loginPassword']) . $rows['salt']) == $rows['password']) {
+                $_SESSION['user'] = $rows;
+                $_COOKIE['CURRENT_SESSION'] = $rows['userName'].$rows['id'];
 
-            //Получаем данные SQL запроса
-            $rows = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            //Если логин совподает, проверяем пароль
-            if ($rows) {
-                //Получаем данные из таблицы
-                if (md5(md5($_POST['loginPassword']) . $rows['salt']) == $rows['password']) {
-                    $_SESSION['user'] = $rows;
-                    $_COOKIE['CURRENT_SESSION'] = $rows['userName'].$rows['id'];
-
-                    return getResponce('ok', $rows);
-                } else
-                    return getResponce('passErr', ['wrong password']);
-            } else {
-                return getResponce('passErr', ['Username '.$_POST['loginName'].' not found!']);
-            }
+                return getResponce('ok', $rows);
+            } else
+                return getResponce('passErr', ['wrong password']);
+        } else {
+            return getResponce('passErr', ['Username '.$_POST['loginName'].' not found!']);
         }
     }
 }

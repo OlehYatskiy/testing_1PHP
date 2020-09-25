@@ -1,18 +1,17 @@
 <?php
  /**
- * Обработчик формы регистрации
+ * registration handler
  */
 function register($pdo) {
     if (
         isset($_POST['mode'])  ? $_POST['mode'] : false
     ) {
 
-        /*Проверяем существует ли у нас
-			такой пользователь в БД*/
+        /*check the user in database*/
         $query = 'SELECT userName, email
                 FROM users
                 WHERE userName = ? OR email = ?';
-        //Подготавливаем PDO выражение для SQL запроса
+
         $stmt = $pdo->prepare($query);
         $stmt->execute([$_POST['username'], $_POST['email']]);
         $rows = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -27,17 +26,17 @@ function register($pdo) {
                     . ' already exist';
         }
 
-        //Проверяем наличие ошибок и выводим пользователю
+        //Check errors and responce them
         if(count($err) > 0)
             return json_encode(['success' => 'regError', 'message' => $err]);
 
-        //Получаем ХЕШ соли
+        //Get salt HASH
         $salt = salt();
 
-        //Солим пароль
+        //salt the password
         $pass = md5(md5($_POST['password']) . $salt);
 
-        /*Если все хорошо, пишем данные в базу*/
+        /*if ok, save data*/
         $query = 'INSERT INTO users(
                     email,
                     userName,
