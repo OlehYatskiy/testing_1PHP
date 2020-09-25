@@ -41,6 +41,7 @@ $(document).ready( function () {
                 url: '/scripts/routes.php',
                 data: `${$(this).serialize()}&mode=auth`,
                 success: function(response) {
+                    debugger;
                     let jsonData = {};
                     try {
                         jsonData = JSON.parse(response);
@@ -54,8 +55,9 @@ $(document).ready( function () {
 
                     // user is logged in successfully in the back-end
                     if (jsonData.success == 'ok') {
+                        debugger;
                         console.log(jsonData.message);
-                        alert(jsonData.message);
+                        window.location.href = `show.php`;
                     } else if (jsonData.success == 'parseErr') {
                         console.log(jsonData.message);
                         alert('Invalid Credentials!');

@@ -35,7 +35,7 @@
 			case 'auth':
 				include './auth/auth.php';
 				$data = auth($pdo);
-//				include './auth/show.php';
+				include '../show.php';
 				break;
 		}
 	}

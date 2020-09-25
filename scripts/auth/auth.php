@@ -49,11 +49,10 @@ function auth($pdo) {
             if ($rows) {
                 //Получаем данные из таблицы
                 if (md5(md5($_POST['loginPassword']) . $rows['salt']) == $rows['password']) {
-                    $_SESSION['user'] = true;
+                    $_SESSION['user'] = $rows;
+                    $_COOKIE['CURRENT_SESSION'] = $rows['userName'].$rows['id'];
 
-                    //Сбрасываем параметры
-                    header('Location:' . BEZ_HOST . '/scripts/auth/show?mode=auth');
-                    exit;
+                    return getResponce('ok', $rows);
                 } else
                     return getResponce('passErr', ['wrong password']);
             } else {
